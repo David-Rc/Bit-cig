@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { NavController, AlertController } from 'ionic-angular';
+import { NavController, AlertController, Events } from 'ionic-angular';
 import { Storage } from '@ionic/storage';
 
 @Component({
@@ -16,15 +16,40 @@ export class HomePage {
   public date = new Date().toLocaleDateString('FR-fr', this.options);
 
   public data: any;
-  public dark;
+  public dark: string;
+
+  public moyPrice: number;
 
 
-  constructor(public navCtrl: NavController, public storage: Storage, public alertCtrl: AlertController) {
+  constructor(public navCtrl: NavController,
+    public storage: Storage,
+    public alertCtrl: AlertController,
+    public events: Events) {
       this.dark = 'dark';
+
+
+
+      this.events.subscribe('price:changed', () => {
+        this.storage.get('moyPrice').then((moy) => {
+          if(moy)
+          {
+            this.moyPrice = moy;
+            console.log('HOME moy => ', moy);
+          }
+        })
+      })
   }
 
   ionViewDidLoad()
   {
+
+    this.storage.get('moyPrice').then((moy) => {
+      if(moy)
+      {
+        this.moyPrice = moy;
+      }
+    })
+
     this.storage.get(this.date).then((data) => {
       if(data)
       {
@@ -42,13 +67,59 @@ export class HomePage {
 
   tapEvent(e)
   {
-    this.price = this.price + 0.4;
-    this.tap++;
-    this.data = {'tap': this.tap, 'price': this.price};
-    this.storage.set(this.date, JSON.stringify(this.data)).then((date) => {
-      return true;
-    });
+    this.storage.get('last_tap').then((date) => {
+      let dateCurrent = new Date();
+      let time = dateCurrent.getTime() - new Date(date).getTime();
+      let minutes = Math.round(((time % 86400000) % 3600000) / 60000);
+      if(minutes < 5)
+      {
+
+        // Remplacer par un animation ?
+
+        let timeLeft = this.inverseTime(minutes)
+
+        let alert = this.alertCtrl.create({
+          message: "Vous pourrez recliquer dans " + timeLeft + " minutes :)",
+          buttons : [{
+            text:'ok',
+            role: 'cancel',
+          }]
+        });
+
+        alert.present();
+      } else {
+        this.price = this.price + this.moyPrice;
+        this.tap++;
+        this.data = {'tap': this.tap, 'price': this.price};
+        this.storage.set(this.date, JSON.stringify(this.data)).then((date) => {
+          this.storage.set('last_tap', new Date()).then((date) => {
+            console.log('last_date : ', date);
+          })
+        });
+      }
+    })
+
   }
 
+  inverseTime(minutes)
+  {
+    switch(minutes)
+    {
+      case 5:
+      return 0;
+      case 4:
+      return 1;
+      case 3:
+      return 2;
+      case 2:
+      return 3;
+      case 1:
+      return 4;
+      case 0:
+      return 5;
+      default:
+      return false;
+    }
+  }
 
 }

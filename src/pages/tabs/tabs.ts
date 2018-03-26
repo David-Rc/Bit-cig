@@ -1,8 +1,10 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, ModalController } from 'ionic-angular';
 //import {GlobalPage} from "../global/global";
 //import {CalendarPage} from "../calendar/calendar";
 import {HomePage} from "../home/home";
+
+import { Storage } from '@ionic/storage';
 
 /**
  * Generated class for the TabsPage page.
@@ -24,7 +26,11 @@ export class TabsPage {
 
   public primary:string;
 
-  constructor(public navCtrl: NavController, public navParams: NavParams) {
+  constructor(
+    public navCtrl: NavController,
+    public navParams: NavParams,
+    public storage: Storage,
+    public modalCtrl: ModalController) {
     this.primary = 'primary';
     this.homeRoot = HomePage;
     this.globalRoot = 'GlobalPage';
@@ -33,6 +39,15 @@ export class TabsPage {
 
   ionViewDidLoad() {
     console.log('ionViewDidLoad TabsPage');
+
+    this.storage.get('intro').then((res) => {
+      if(!res)
+      {
+        let modal = this.modalCtrl.create('IntroPage');
+        modal.present();
+      }
+    })
+
   }
 
 }

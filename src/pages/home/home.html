@@ -9,6 +9,11 @@
   <div id="img-box">
     <img (tap)="tapEvent($event)"  src="{{img}}"/>
   </div>
+
+  <!-- <div id="cig">
+    <div id="cender"><div id="filter"></div><div id="bod"></div></div>
+  </div> -->
+
   <div id="text-box">
     <p>Vous avez fumé {{tap}} cigarettes aujourd'hui</p>
     <p><span><strong>Coût : </strong></span> {{this.price | number : 0}} €</p>

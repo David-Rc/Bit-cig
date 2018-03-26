@@ -70,32 +70,45 @@ ionViewDidEnter()
 
     this.storage.keys().then(keys => {
 
+      console.log("keys => ", keys);
+
       keys.forEach(key => {
-        let day = {date: key, tap: null, price: null};
-        this.storage.get(key).then((value) => {
+        console.log('key => ', key);
+        let test: any = new Date(key)
+        let control: boolean = test == 'Invalid Date';
+        console.log('Control = ', control)
+        if(!control)
+        {
 
-          // Redondant
-          let json = JSON.parse(value);
+          let day = {date: key, tap: null, price: null};
+          this.storage.get(key).then((value) => {
 
-          day.tap = json.tap
-          day.price = json.price
-          this.data.push(day);
+            // Redondant
+            let json = JSON.parse(value);
 
-          let date = new Date(key);
-          let monthYears = this.translateMonth(date) + ' ' + date.getFullYear();
+            day.tap = json.tap
+            day.price = json.price
+            this.data.push(day);
 
-          if(this.monthName.indexOf(monthYears) <= -1)
-          {
-            this.monthName.push(monthYears);
-            this.totalMonth.push({index: monthYears, tap: json.tap, price: json.price})
-            this.tapMonth.push(json.tap);
-            this.priceMonth.push(json.price);
-          } else {
-            this.totalMonth[this.monthName.indexOf(monthYears)] = {index: monthYears, tap: (this.totalMonth[this.monthName.indexOf(monthYears)].tap + json.tap), price: (this.totalMonth[this.monthName.indexOf(monthYears)].price + json.price)};
-            this.tapMonth[this.monthName.indexOf(monthYears)] = this.tapMonth[this.monthName.indexOf(monthYears)] + json.tap;
-            this.priceMonth[this.monthName.indexOf(monthYears)] = this.priceMonth[this.monthName.indexOf(monthYears)] + json.price;
-          }
-        })
+            let date = new Date(key);
+            let monthYears = this.translateMonth(date) + ' ' + date.getFullYear();
+
+            if(this.monthName.indexOf(monthYears) <= -1)
+            {
+              this.monthName.push(monthYears);
+              this.totalMonth.push({index: monthYears, tap: json.tap, price: json.price})
+              this.tapMonth.push(json.tap);
+              this.priceMonth.push(json.price);
+            } else {
+              this.totalMonth[this.monthName.indexOf(monthYears)] = {index: monthYears, tap: (this.totalMonth[this.monthName.indexOf(monthYears)].tap + json.tap), price: (this.totalMonth[this.monthName.indexOf(monthYears)].price + json.price)};
+              this.tapMonth[this.monthName.indexOf(monthYears)] = this.tapMonth[this.monthName.indexOf(monthYears)] + json.tap;
+              this.priceMonth[this.monthName.indexOf(monthYears)] = this.priceMonth[this.monthName.indexOf(monthYears)] + json.price;
+            }
+          })
+
+        } else {
+          console.log('NEXT')
+        }
     })
   });
   }

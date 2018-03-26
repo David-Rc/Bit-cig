@@ -42,5 +42,39 @@ page-home {
     color: black;
     text-align: center;
   }
+  #cig{
+    margin: auto;
+    width: 120px;
+    height: 10px;
+    border: 1px solid black;
+  }
+  #filter{
+    float: left;
+    height: 100%;
+    width: 20px;
+    background-color: orange;
+  }
+
+  #bod{
+    float: right;
+    width: 98px;
+    height: 100%;
+    background-color: grey;
+    animation-name: test;
+    animation-duration: 50s;
+    animation-direction: reverse;
+  }
+
+  @keyframes test{
+    form {width: 100%}
+    to {width: 0%}
+  }
+
+  #cender{
+    clear: both;
+    height: 100%;
+    width: 100%;
+    background-color: white;
+  }
 
 }
