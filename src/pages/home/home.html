@@ -1,14 +1,24 @@
 <ion-header>
-  <ion-navbar>
-    <ion-title>
-      Ionic Blank
-    </ion-title>
-  </ion-navbar>
-</ion-header>
 
-<ion-content padding>
-  The world is your oyster.
-  <p>
-    If you get lost, the <a href="http://ionicframework.com/docs/v2">docs</a> will be your guide.
-  </p>
+  <ion-navbar [color]="dark">
+    <ion-title>Je fume</ion-title>
+  </ion-navbar>
+
+</ion-header>
+<ion-content padding class="master">
+  <div id="img-box">
+    <img (tap)="tapEvent($event)"  src="{{img}}"/>
+  </div>
+  <div id="text-box">
+    <p>Vous avez fumé {{tap}} cigarettes aujourd'hui</p>
+    <p><span><strong>Coût : </strong></span> {{this.price | number : 0}} €</p>
+  </div>
+  <ion-card>
+    <ion-card-content>
+      <p>
+        Quand un adolescent trouve le bonheur à fumer des cigarettes et se roule les épaules de satisfaction à vivre comme un homme, j'y vois un esclave qui s'enchaîne.
+      </p>
+      <span>Author</span>
+    </ion-card-content>
+  </ion-card>
 </ion-content>

@@ -1,0 +1,59 @@
+<!--
+  Generated template for the CalendarPage page.
+
+  See http://ionicframework.com/docs/components/#navigation for more info on
+  Ionic pages and navigation.
+-->
+<ion-header>
+
+  <ion-navbar [color]="dark">
+    <ion-title>Mes stats</ion-title>
+  </ion-navbar>
+
+</ion-header>
+
+
+<ion-content>
+  <div padding>
+    <ion-segment [color]="primary" [(ngModel)]="consult">
+      <ion-segment-button  value="dayly">
+        journalière
+      </ion-segment-button>
+      <ion-segment-button value="monthly">
+        mensuel
+      </ion-segment-button>
+    </ion-segment>
+  </div>
+
+  <div [ngSwitch]="consult">
+    <ion-list *ngSwitchCase="'dayly'" >
+      <ion-item *ngFor="let item of data">
+        <div>
+          <h2>{{item.date}}</h2>
+          <p>{{item.tap}} cigarettes ont été fumées</p>
+          <p>Coût : {{item.price | number : 0}} €</p>
+        </div>
+      </ion-item>
+    </ion-list>
+
+    <ion-list *ngSwitchCase="'monthly'">
+      <ion-item *ngFor="let obj of monthName">
+          <h2>{{obj}}</h2>
+          <div *ngFor="let data of totalMonth">
+            <div *ngIf="data.index == obj">
+              <p>
+                {{data.tap}} cigarettes ont été fumées
+              </p>
+              <p>
+                Dépense : {{data.price | number : 0}} €
+              </p>
+            </div>
+        </div>
+      </ion-item>
+    </ion-list>
+  </div>
+
+
+
+
+</ion-content>
