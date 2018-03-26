@@ -1,0 +1,8 @@
+{
+  "name": "bit-cig",
+  "app_id": "61143bab",
+  "type": "ionic-angular",
+  "integrations": {
+    "cordova": {}
+  }
+}
