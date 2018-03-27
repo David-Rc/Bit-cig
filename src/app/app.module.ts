@@ -13,12 +13,18 @@ import { HomePage } from '../pages/home/home';
 //import { GlobalPage } from "../pages/global/global";
 import {TabsPage} from "../pages/tabs/tabs";
 
+//Firebase :
+import { AngularFireModule } from 'angularfire2';
+import { AngularFirestoreModule } from 'angularfire2/firestore';
+
+// Config
+import { Firebase } from '../config/config';
+import { FirebaseProvider } from '../providers/firebase/firebase';
+
 @NgModule({
   declarations: [
     MyApp,
     HomePage,
-    //CalendarPage,
-    //GlobalPage,
     TabsPage,
   ],
   imports: [
@@ -28,6 +34,8 @@ import {TabsPage} from "../pages/tabs/tabs";
       name: '__bitDb',
         driverOrder: ['sqlite', 'websql']
     }),
+    AngularFireModule.initializeApp(Firebase),
+    AngularFirestoreModule,
   ],
   bootstrap: [IonicApp],
   entryComponents: [
@@ -40,7 +48,8 @@ import {TabsPage} from "../pages/tabs/tabs";
   providers: [
     StatusBar,
     SplashScreen,
-    {provide: ErrorHandler, useClass: IonicErrorHandler}
+    {provide: ErrorHandler, useClass: IonicErrorHandler},
+    FirebaseProvider
   ]
 })
 export class AppModule {}

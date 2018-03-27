@@ -70,13 +70,9 @@ ionViewDidEnter()
 
     this.storage.keys().then(keys => {
 
-      console.log("keys => ", keys);
-
       keys.forEach(key => {
-        console.log('key => ', key);
         let test: any = new Date(key)
         let control: boolean = test == 'Invalid Date';
-        console.log('Control = ', control)
         if(!control)
         {
 

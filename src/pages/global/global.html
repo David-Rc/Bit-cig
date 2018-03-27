@@ -13,6 +13,11 @@
 </ion-header>
 
 
-<ion-content padding>
-
+<ion-content padding class="master">
+  <div *ngFor="let item of data">
+    <h2>Total de cigarettes fumées : </h2>
+    {{item.tap | number: 0}}
+    <h2>Total des gains de l'industrie du tabac : </h2>
+    {{item.price | number: 0}} €
+  </div>
 </ion-content>

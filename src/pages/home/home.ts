@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { NavController, AlertController, Events } from 'ionic-angular';
 import { Storage } from '@ionic/storage';
+import { FirebaseProvider } from '../../providers/firebase/firebase';
 
 @Component({
   selector: 'page-home',
@@ -21,10 +22,15 @@ export class HomePage {
   public moyPrice: number;
 
 
+  public store: any;
+
+
+
   constructor(public navCtrl: NavController,
     public storage: Storage,
     public alertCtrl: AlertController,
-    public events: Events) {
+    public events: Events,
+    public firebase: FirebaseProvider) {
       this.dark = 'dark';
 
 
@@ -34,7 +40,6 @@ export class HomePage {
           if(moy)
           {
             this.moyPrice = moy;
-            console.log('HOME moy => ', moy);
           }
         })
       })
@@ -42,6 +47,10 @@ export class HomePage {
 
   ionViewDidLoad()
   {
+
+    this.firebase.showList().subscribe(data => {
+      this.store = data;
+    })
 
     this.storage.get('moyPrice').then((moy) => {
       if(moy)
@@ -93,7 +102,13 @@ export class HomePage {
         this.data = {'tap': this.tap, 'price': this.price};
         this.storage.set(this.date, JSON.stringify(this.data)).then((date) => {
           this.storage.set('last_tap', new Date()).then((date) => {
-            console.log('last_date : ', date);
+
+            this.store.forEach(item => {
+              let tap = Number(item.tap + this.tap);
+              let price = Number(item.price + this.price);
+
+              this.firebase.updateList(tap, price);
+            })
           })
         });
       }

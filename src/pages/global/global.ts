@@ -1,6 +1,9 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
 
+// provider
+import { FirebaseProvider } from '../../providers/firebase/firebase';
+
 /**
  * Generated class for the GlobalPage page.
  *
@@ -17,12 +20,26 @@ export class GlobalPage {
 
   public dark;
 
-  constructor(public navCtrl: NavController, public navParams: NavParams) {
+  public data: number[] = [];
+
+  constructor(public navCtrl: NavController,
+    public navParams: NavParams,
+    public firebase: FirebaseProvider) {
     this.dark = 'dark'
   }
 
   ionViewDidLoad() {
     console.log('ionViewDidLoad GlobalPage');
+    this.showList();
   }
+
+  showList()
+  {
+    this.firebase.showList().subscribe(data => {
+      this.data = data;
+    }, e => { console.log('E => ', e)});
+  }
+
+
 
 }
