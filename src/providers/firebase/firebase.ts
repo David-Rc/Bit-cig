@@ -30,9 +30,9 @@ export class FirebaseProvider {
     }).then(res => { console.log('Item Edited')});
   }
 
-  updateTap()
+/*   updateTap()
   {
 
-  }
+  } */
 
 }
